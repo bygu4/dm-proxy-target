@@ -1,4 +1,8 @@
 ## dm_proxy
+
+![build-status](https://github.com/bygu4/dm-proxy-target/actions/workflows/build.yml/badge.svg)
+![test-status](https://github.com/bygu4/dm-proxy-target/actions/workflows/test.yml/badge.svg)
+
 Device mapper target that allows to collect request statistics over an existing block device.
 Such statistics include number of requests and average block size for read and write operations separately or overall.
 
@@ -34,4 +38,16 @@ where ```proxy_mapper_name``` is the name of the mapper to create, and ```device
 Statistics of the module can be accessed using sysfs. The following command would print stats to the standard output:
 ```
 cat /sys/module/dm_proxy/stat/volumes
+```
+Sample statistics would look like this:
+```
+read:
+	reqs: 243
+	avg_block: 4096
+write:
+	reqs: 3
+	avg_block: 4096
+total:
+	reqs: 246
+	avg_block: 4096
 ```
