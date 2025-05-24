@@ -1,4 +1,4 @@
-name: build
+name: test
 on: [push, pull_request]
 jobs:
   build:
@@ -8,5 +8,5 @@ jobs:
       - name: Set up kernel headers
         run: sudo apt-get update && sudo apt-get install -y linux-headers-$(uname -r)
       - name: Run the testing script
-        run: bash test.sh
+        run: sudo bash test.sh
 
