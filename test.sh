@@ -21,8 +21,8 @@ setup_dev() {
 make_reqs() {
 	dd if=/dev/random of=/dev/mapper/dmp1 bs=512 count=8
 	dd if=/dev/mapper/dmp1 of=/dev/null bs=512 count=10
-	dd if=/dev/random of=/dev/mapper/dmp1 bs=512 count=1
-	dd if=/dev/mapper/dmp1 of=/dev/null bs=512 count=2
+	dd if=/dev/random of=/dev/mapper/dmp1 bs=4k count=2
+	dd if=/dev/mapper/dmp1 of=/dev/null bs=4k count=1
 }
 
 # Display proxy statistics
