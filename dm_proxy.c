@@ -14,12 +14,21 @@
 #define DM_MSG_PREFIX "proxy"
 
 /*
+ * A struct containing the block request statistics
+ */
+struct bio_stats {
+	size_t total_size;
+	unsigned int blk_count;
+	unsigned int req_count;
+};
+
+/*
  * A struct containing the proxy target context
  */
 struct dm_proxy_target {
 	struct dm_dev *dev;
-
-	// add stats here
+	struct bio_stats *r_stats;
+	struct bio_stats *w_stats;
 };
 
 /*
@@ -63,11 +72,34 @@ static void proxy_dtr(struct dm_target *ti)
 }
 
 /*
+ * Update the given stats according to the given request
+ */
+static void update_stats(struct bio_stats *stats, struct bio *bio) {
+	struct bio_vec bvec;
+	struct bvec_iter iter;
+	bio_for_each_segment(bvec, bio, iter) {
+		stats->total_size += bvec.bv_len;
+		++stats->blk_count;
+	}
+ 
+	++stats->req_count;
+}
+
+/*
  * Update stats and redirect bio to the underlying device
  */
 static int proxy_map(struct dm_target *ti, struct bio *bio)
 {
-	return 0;
+	struct dm_proxy_target *dmpt = ti->private;
+
+	if (bio_data_dir(bio) == WRITE)
+		update_stats(dmpt->w_stats, bio);
+	else
+		update_stats(dmpt->r_stats, bio);
+
+	bio_set_dev(bio, dmpt->dev->bdev);
+	submit_bio(bio);
+	return DM_MAPIO_SUBMITTED;
 }
 
 static struct target_type proxy_target = {
