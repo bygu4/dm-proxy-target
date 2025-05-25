@@ -3,7 +3,7 @@
 ![build-status](https://github.com/bygu4/dm-proxy-target/actions/workflows/build.yml/badge.svg)
 ![test-status](https://github.com/bygu4/dm-proxy-target/actions/workflows/test.yml/badge.svg)
 
-Device mapper target that allows to collect request statistics over an existing block device.
+Device mapper target that allows to collect request statistics over an existing mapper device.
 Such statistics include number of requests and average block size for read and write operations separately or overall.
 
 This module was tested for Ubuntu 24.04 and Fedora 42.
