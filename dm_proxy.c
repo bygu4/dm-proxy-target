@@ -97,8 +97,7 @@ static void update_stats(struct bio_stats *stats, struct bio *bio) {
 /*
  * Update stats and redirect bio to the underlying device
  */
-static int proxy_map(struct dm_target *ti, struct bio *bio)
-{
+static int proxy_map(struct dm_target *ti, struct bio *bio) {
 	struct dm_dev *dev = ti->private;
 
 	if (bio_data_dir(bio) == WRITE)
@@ -138,6 +137,7 @@ static int __init proxy_init(void) {
 	}
 
 	int result = dm_register_target(&dmpt);
+
 	if (result) {
 		DMERR("Failed to register target");
 		sysfs_remove_file(stats_kobj, &stats_attr.attr);

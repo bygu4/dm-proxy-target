@@ -6,7 +6,7 @@
 set -e
 
 # Build and install the module
-build () {
+build() {
 	make
 	insmod dm_proxy.ko
 }
@@ -30,7 +30,7 @@ print_stats() {
 	cat /sys/module/dm_proxy/stat/volumes
 }
 
-# Cleanup
+# Remove created devices and the proxy module, then exit
 cleanup() {
 	exitcode=$?
 	dmsetup remove dmp1
